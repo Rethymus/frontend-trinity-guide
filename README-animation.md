@@ -1,4 +1,7 @@
 # 动态效果实现指南
+*CSS Animation & JavaScript Control*
+
+[← 上一章：表单交互设计](README-form.md) | [返回主文档](README.md) | [下一章：响应式布局 →](README-responsive.md)
 
 > CSS 动画与 JS 控制结合，打造生动的用户界面
 
@@ -676,11 +679,11 @@ const AnimationDebugger = {
 
 ## 📚 相关文档
 
-- [← 返回主文档](README.md)
+- [← 上一章：表单交互设计](README-form.md)
+- [返回主文档](README.md)
+- [下一章：响应式布局 →](README-responsive.md)
+- [完整案例实战 →](README-project.md)
 - [基础语法整合](README-basic.md)
-- [表单交互设计](README-form.md)
-- [响应式布局 →](README-responsive.md)
-- [完整案例 →](README-project.md)
 
 ---
 

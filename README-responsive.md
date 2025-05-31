@@ -1,14 +1,13 @@
 # README-responsive.md
 
 # 响应式布局指南
-*媒体查询 + JavaScript 适配方案*
+*Responsive Layout Design*
 
-## 📚 导航链接
-- [← 返回主文档](README.md)
-- [← 动态效果实现](README-animation.md)
-- [→ 完整案例实战](README-project.md)
+[← 上一章：动态效果实现](README-animation.md) | [返回主文档](README.md) | [下一章：完整案例实战 →](README-project.md)
 
----
+## 📋 本章概览
+
+本章将深入探讨响应式布局的设计原理和实现方法，帮助您创建适配不同设备的现代化网页。
 
 ## 🎯 学习目标
 
@@ -494,109 +493,14 @@ window.addEventListener('resize', handleResize);
 
 ---
 
-## 🔍 版本对比与适用场景
+## 🔗 相关链接
 
-### 技术组合对比
-
-| 方案 | 优势 | 劣势 | 适用场景 |
-|------|------|------|----------|
-| 纯CSS媒体查询 | 性能好、无JS依赖 | 功能有限 | 简单响应式布局 |
-| CSS + JS增强 | 功能强大、交互丰富 | 复杂度高 | 复杂交互应用 |
-| Bootstrap框架 | 开发速度快 | 定制性差、文件大 | 快速原型开发 |
-| CSS Grid/Flexbox | 现代化、灵活 | 兼容性要求 | 现代浏览器项目 |
-
-### 最佳实践建议
-
-1. **移动端优先**：从小屏幕开始设计，逐步增强
-2. **渐进增强**：确保基础功能在所有设备上可用
-3. **性能优化**：减少重绘重排，使用CSS3硬件加速
-4. **测试覆盖**：在真实设备上测试响应式效果
+- [← 上一章：动态效果实现](README-animation.md)
+- [返回主文档](README.md)
+- [下一章：完整案例实战 →](README-project.md)
+- [基础语法整合](README-basic.md)
+- [表单交互设计](README-form.md)
 
 ---
 
-## ⚠️ 注意事项
-
-### 常见陷阱
-1. **忘记viewport meta标签**
-   ```html
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   ```
-
-2. **过度依赖固定尺寸**
-   ```css
-   /* 错误 */
-   .container { width: 320px; }
-   
-   /* 正确 */
-   .container { max-width: 320px; width: 100%; }
-   ```
-
-3. **忽略触摸友好性**
-   ```css
-   /* 确保触摸目标足够大 */
-   .button {
-       min-height: 44px;
-       min-width: 44px;
-   }
-   ```
-
-### 调试技巧
-```javascript
-// 响应式调试工具
-function createResponsiveDebugger() {
-    const debugInfo = document.createElement('div');
-    debugInfo.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        background: rgba(0,0,0,0.8);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 12px;
-        z-index: 9999;
-    `;
-    
-    function updateDebugInfo() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const deviceType = getDeviceType();
-        
-        debugInfo.innerHTML = `
-            宽度: ${width}px<br>
-            高度: ${height}px<br>
-            设备: ${deviceType}<br>
-            像素比: ${window.devicePixelRatio}
-        `;
-    }
-    
-    document.body.appendChild(debugInfo);
-    updateDebugInfo();
-    
-    window.addEventListener('resize', debounce(updateDebugInfo, 100));
-}
-
-// 开发环境启用调试器
-if (process.env.NODE_ENV === 'development') {
-    createResponsiveDebugger();
-}
-```
-
----
-
-## 📚 扩展学习
-
-### 推荐资源
-- [MDN 媒体查询文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Media_Queries)
-- [Can I Use - 兼容性查询](https://caniuse.com/)
-- [Google Web Fundamentals](https://developers.google.com/web/fundamentals)
-
-### 下一步学习
-- [→ 完整案例实战](README-project.md) - 整合所有技能的综合项目
-- CSS 预处理器（Sass/Less）
-- 移动端手势库（Hammer.js）
-- PWA 渐进式 Web 应用
-
----
-
-*继续学习：[完整案例实战 →](README-project.md)*
+*响应式布局是现代Web开发的基础技能，掌握这些技术后，您就能创建适配各种设备的优秀网页了！*
