@@ -1,52 +1,104 @@
 # 基础语法整合应用
-*HTML+CSS+JS Foundation*
+*HTML+CSS+JS Basic Syntax Integration*
 
-[← 返回主文档](README.md) | [下一章：表单交互设计 →](README-form.md)
+[返回主文档](readme.md) | [下一章：表单交互设计 →](README-form.md)
 
 ## 📋 本章概览
 
-本章将系统介绍HTML、CSS、JavaScript的基础语法，并通过实际代码示例展示三种技术的协作应用。
+本章将系统介绍HTML、CSS、JavaScript三大核心技术的基础语法，并通过实际案例展示它们之间的协作关系。从最基本的标签使用到复杂的交互实现，帮助您建立扎实的前端开发基础。
 
-## 🏗️ HTML 结构基础
+## 🎯 学习目标
 
-### 语义化标签应用
+通过本章学习，您将掌握：
+- HTML5语义化标签的正确使用方法
+- CSS选择器与样式属性的核心应用
+- JavaScript基础语法与DOM操作技巧
+- 三大技术的协作机制与最佳实践
+
+---
+
+## 📋 目录
+- [HTML 结构基础](#html-结构基础)
+- [CSS 样式控制](#css-样式控制)
+- [JavaScript 交互逻辑](#javascript-交互逻辑)
+- [三剑客协作实例](#三剑客协作实例)
+- [实战案例：交互式卡片](#实战案例交互式卡片)
+- [版本对比与适用场景](#版本对比与适用场景)
+- [常见问题与解决方案](#常见问题与解决方案)
+
+## HTML 结构基础
+
+### 🏗️ 语义化标签体系
+
+HTML5提供了丰富的语义化标签，让网页结构更加清晰：
 
 ```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>语义化网页结构</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语义化HTML示例</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>网站标题</h1>
-        <nav>导航菜单</nav>
+    <!-- 页面头部 -->
+    <header class="site-header">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </nav>
     </header>
-    
-    <main>
-        <article>
-            <h2>文章标题</h2>
-            <p>文章内容段落</p>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <article class="post">
+            <header>
+                <h1>文章标题</h1>
+                <time datetime="2024-01-01">2024年1月1日</time>
+            </header>
+            <section class="content">
+                <p>这是文章的主要内容...</p>
+            </section>
+            <footer class="post-meta">
+                <span class="author">作者：张三</span>
+                <span class="tags">标签：HTML, CSS, JavaScript</span>
+            </footer>
         </article>
-        
-        <aside>侧边栏内容</aside>
+
+        <aside class="sidebar">
+            <section class="widget">
+                <h3>相关文章</h3>
+                <ul>
+                    <li><a href="#">CSS基础教程</a></li>
+                    <li><a href="#">JavaScript入门</a></li>
+                </ul>
+            </section>
+        </aside>
     </main>
-    
-    <footer>页脚信息</footer>
+
+    <!-- 页面底部 -->
+    <footer class="site-footer">
+        <p>&copy; 2024 我的网站. 保留所有权利.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
 ```
 
-### 常用标签分类
+### 📊 常用标签分类
 
-| 类型 | 标签 | 用途 | 示例 |
+| 分类 | 标签 | 用途 | 语义 |
 |------|------|------|------|
-| 文本 | `h1-h6`, `p`, `span` | 标题与段落 | `<h1>主标题</h1>` |
-| 格式 | `b`, `i`, `u`, `s` | 文本样式 | `<b>粗体文本</b>` |
-| 列表 | `ul`, `ol`, `li` | 有序/无序列表 | `<ul><li>项目</li></ul>` |
-| 媒体 | `img`, `audio`, `video` | 多媒体内容 | `<img src="pic.jpg" alt="图片">` |
-| 链接 | `a` | 超链接 | `<a href="url">链接文本</a>` |
+| **结构标签** | `<header>`, `<main>`, `<footer>` | 页面布局 | 明确页面结构 |
+| **内容标签** | `<article>`, `<section>`, `<aside>` | 内容组织 | 逻辑内容分组 |
+| **导航标签** | `<nav>`, `<menu>` | 导航菜单 | 导航链接集合 |
+| **文本标签** | `<h1>-<h6>`, `<p>`, `<span>` | 文本内容 | 文本层级关系 |
+| **媒体标签** | `<img>`, `<video>`, `<audio>` | 多媒体 | 媒体资源展示 |
 
 ## 🎨 CSS 样式控制
 
@@ -247,7 +299,7 @@ const eventTypes = {
 };
 ```
 
-## 🎯 三技术协作示例
+## 🎯 三剑客协作实例
 
 ### 完整的交互组件
 
@@ -418,11 +470,12 @@ const eventTypes = {
 
 ## 🔗 相关链接
 
-- [表单交互设计 →](README-form.md)
+- [返回主文档](README.md)
+- [下一章：表单交互设计 →](README-form.md)
 - [动态效果实现 →](README-animation.md)
 - [响应式布局 →](README-responsive.md)
 - [完整案例实战 →](README-project.md)
 
 ---
 
-*掌握这些基础语法后，您就可以开始构建更复杂的Web应用了！*
+*掌握了基础语法后，您就拥有了前端开发的核心技能基础。接下来让我们深入学习表单交互设计！*

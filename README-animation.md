@@ -1,9 +1,21 @@
 # 动态效果实现指南
 *CSS Animation & JavaScript Control*
 
-[← 上一章：表单交互设计](README-form.md) | [返回主文档](README.md) | [下一章：响应式布局 →](README-responsive.md)
+[← 上一章：表单交互设计](README-form.md) | [返回主文档](readme.md) | [下一章：响应式布局 →](README-responsive.md)
 
-> CSS 动画与 JS 控制结合，打造生动的用户界面
+## 📋 本章概览
+
+本章将深入探讨CSS动画和JavaScript动画控制的结合应用，帮助您创建生动的用户界面体验。通过系统学习动画原理、实现技巧和性能优化，掌握现代Web动效设计的核心技能。
+
+## 🎯 学习目标
+
+通过本章学习，您将掌握：
+- CSS过渡动画与关键帧动画的核心技术
+- JavaScript动画控制的高级应用
+- 动画性能优化的最佳实践
+- CSS与JavaScript动画的组合应用策略
+
+---
 
 ## 📋 目录
 - [技术概览](#技术概览)
@@ -18,7 +30,7 @@
 
 动画效果是现代网页设计的重要组成部分，主要通过以下技术实现：
 
-### 技术组合关系
+### 🔗 技术组合关系
 ```
 CSS 动画 ←→ JavaScript 控制
     ↓           ↓
@@ -26,6 +38,13 @@ CSS 动画 ←→ JavaScript 控制
     ↓           ↓
     用户体验提升
 ```
+
+### 🛠️ 核心技术栈
+- **CSS Transitions**：属性过渡动画
+- **CSS Animations**：关键帧动画
+- **JavaScript DOM操作**：动态样式控制
+- **Web Animations API**：现代动画接口
+- **requestAnimationFrame**：性能优化
 
 ## CSS 动画基础
 
