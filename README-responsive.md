@@ -1,5 +1,3 @@
-# README-responsive.md
-
 # 响应式布局指南
 *Responsive Layout Design*
 
