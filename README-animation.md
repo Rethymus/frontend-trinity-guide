@@ -50,73 +50,42 @@ CSS 动画 ←→ JavaScript 控制
 
 ### 1. Transition 过渡动画
 
-基于提供的CSS文件中的伪类选择器示例：
+CSS过渡是最简单的动画形式，用于元素状态变化时的平滑过渡：
 
 ```css
-/* 基础过渡效果 */
-.animated-element {
-    background-color: #3498db;
-    transform: scale(1);
-    transition: all 0.3s ease-in-out;
+/* 基础过渡语法 */
+.element {
+    /* 过渡属性 | 持续时间 | 时间函数 | 延迟时间 */
+    transition: all 0.3s ease 0s;
+    
+    /* 或者分别设置 */
+    transition-property: opacity, transform;
+    transition-duration: 0.3s, 0.5s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
 }
 
-.animated-element:hover {
-    background-color: #e74c3c;
-    transform: scale(1.1);
-}
-
-/* 多属性分别控制 */
-.complex-transition {
-    width: 100px;
-    height: 100px;
-    background-color: yellowgreen;
-    border-radius: 0;
-    transition: 
-        width 0.5s ease,
-        height 0.5s ease 0.1s,
-        background-color 0.3s linear,
-        border-radius 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.complex-transition:hover {
-    width: 150px;
-    height: 150px;
-    background-color: #ff6b6b;
-    border-radius: 50%;
+/* 鼠标悬停触发 */
+.element:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
 }
 ```
 
-### 2. Keyframes 关键帧动画
+### 2. Animation 关键帧动画
+
+更复杂的动画需要使用关键帧定义：
 
 ```css
-/* 旋转动画 */
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.2);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* 浮动效果 */
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-/* 渐现效果 */
-@keyframes fadeInUp {
+/* 定义动画关键帧 */
+@keyframes slideInFade {
     0% {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(-30px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(-15px);
     }
     100% {
         opacity: 1;
@@ -125,161 +94,152 @@ CSS 动画 ←→ JavaScript 控制
 }
 
 /* 应用动画 */
-.rotating-box {
-    width: 100px;
-    height: 100px;
-    background-color: #4ecdc4;
-    animation: rotate 2s linear infinite;
+.animated-element {
+    animation: slideInFade 0.6s ease-out forwards;
 }
 
-.floating-element {
-    animation: float 3s ease-in-out infinite;
-}
-
-.fade-in-element {
-    animation: fadeInUp 0.6s ease-out;
-}
-```
-
-### 3. 结合定位的动画效果
-
-基于提供的定位HTML文件概念：
-
-```css
-/* 固定定位的滑入动画 */
-.sliding-sidebar {
-    position: fixed;
-    right: -300px;
-    top: 0;
-    width: 300px;
-    height: 100vh;
-    background-color: #2c3e50;
-    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.sliding-sidebar.active {
-    right: 0;
-}
-
-/* 相对定位的弹性效果 */
-.elastic-box {
-    position: relative;
-    background-color: #e67e22;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.elastic-box:active {
-    transform: scale(0.95);
+/* 动画属性详解 */
+.complex-animation {
+    animation-name: slideInFade;
+    animation-duration: 2s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation-delay: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+    animation-play-state: running;
 }
 ```
 
 ## JavaScript 动画控制
 
-### 1. 基于CSS类的控制
+### Web Animations API
 
-结合提供的JavaScript文件中的事件处理概念：
+现代浏览器提供的标准化动画API：
 
 ```javascript
-// 动画控制类
+// Web Animations API 示例
 class AnimationController {
     constructor() {
-        this.initEventListeners();
+        this.elements = document.querySelectorAll('.animate-target');
+        this.setupAnimations();
     }
-
-    initEventListeners() {
-        // 点击触发动画
-        document.addEventListener('click', (e) => {
-            if (e.target.matches('.trigger-animation')) {
-                this.triggerAnimation(e.target);
-            }
-        });
-
-        // 滚动触发动画
-        window.addEventListener('scroll', () => {
-            this.handleScrollAnimation();
-        });
-    }
-
-    triggerAnimation(element) {
-        const target = document.querySelector(element.dataset.target);
-        if (target) {
-            target.classList.add('animated');
+    
+    setupAnimations() {
+        this.elements.forEach(element => {
+            // 创建动画
+            const animation = element.animate([
+                // 关键帧
+                { opacity: 0, transform: 'scale(0.8)' },
+                { opacity: 1, transform: 'scale(1)' }
+            ], {
+                // 配置选项
+                duration: 500,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                fill: 'forwards'
+            });
             
-            // 动画结束后移除类
-            target.addEventListener('animationend', () => {
-                target.classList.remove('animated');
-            }, { once: true });
+            // 监听动画事件
+            animation.addEventListener('finish', () => {
+                console.log('动画完成');
+            });
+            
+            // 保存引用以便控制
+            element.animation = animation;
+        });
+    }
+    
+    // 动画控制方法
+    playAnimation(element) {
+        if (element.animation) {
+            element.animation.play();
         }
     }
-
-    handleScrollAnimation() {
-        const elements = document.querySelectorAll('.scroll-animate');
-        const windowHeight = window.innerHeight;
-
-        elements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            
-            if (elementTop < windowHeight * 0.75) {
-                element.classList.add('in-view');
-            }
-        });
+    
+    pauseAnimation(element) {
+        if (element.animation) {
+            element.animation.pause();
+        }
+    }
+    
+    reverseAnimation(element) {
+        if (element.animation) {
+            element.animation.reverse();
+        }
     }
 }
-
-// 初始化动画控制器
-document.addEventListener('DOMContentLoaded', () => {
-    new AnimationController();
-});
 ```
 
-### 2. 直接操作样式的动画
+### 自定义动画函数
 
 ```javascript
-// 自定义动画函数
-function customAnimation(element, properties, duration = 1000, easing = 'ease') {
+// 自定义缓动函数
+const Easing = {
+    // 简单缓动
+    linear: t => t,
+    easeIn: t => t * t,
+    easeOut: t => 1 - (1 - t) * (1 - t),
+    easeInOut: t => t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t),
+    
+    // 弹性缓动
+    elastic: t => Math.sin(13 * Math.PI / 2 * t) * Math.pow(2, 10 * (t - 1)),
+    
+    // 回弹缓动
+    bounce: t => {
+        if (t < 0.36363636) {
+            return 7.5625 * t * t;
+        } else if (t < 0.72727273) {
+            return 7.5625 * (t -= 0.54545455) * t + 0.75;
+        } else if (t < 0.90909091) {
+            return 7.5625 * (t -= 0.81818182) * t + 0.9375;
+        } else {
+            return 7.5625 * (t -= 0.95454545) * t + 0.984375;
+        }
+    }
+};
+
+// 动画执行器
+function animate(element, properties, options = {}) {
+    const {
+        duration = 300,
+        easing = Easing.easeOut,
+        onUpdate = () => {},
+        onComplete = () => {}
+    } = options;
+    
+    const startTime = performance.now();
     const startValues = {};
-    const targetValues = properties;
     
     // 获取初始值
     Object.keys(properties).forEach(prop => {
-        startValues[prop] = parseFloat(getComputedStyle(element)[prop]) || 0;
+        startValues[prop] = getComputedStyle(element)[prop];
     });
-
-    const startTime = performance.now();
-
-    function animate(currentTime) {
+    
+    function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easing(progress);
         
-        // 缓动函数
-        const easeProgress = easing === 'ease-out' 
-            ? 1 - Math.pow(1 - progress, 3)
-            : progress;
-
-        // 更新样式
+        // 更新属性值
         Object.keys(properties).forEach(prop => {
-            const start = startValues[prop];
-            const target = targetValues[prop];
-            const current = start + (target - start) * easeProgress;
+            const startValue = parseFloat(startValues[prop]);
+            const endValue = properties[prop];
+            const currentValue = startValue + (endValue - startValue) * easedProgress;
             
-            element.style[prop] = `${current}px`;
+            element.style[prop] = currentValue + (prop.includes('opacity') ? '' : 'px');
         });
-
+        
+        onUpdate(easedProgress);
+        
         if (progress < 1) {
-            requestAnimationFrame(animate);
+            requestAnimationFrame(update);
+        } else {
+            onComplete();
         }
     }
-
-    requestAnimationFrame(animate);
+    
+    requestAnimationFrame(update);
 }
-
-// 使用示例
-const box = document.querySelector('.animated-box');
-customAnimation(box, {
-    width: 200,
-    height: 200,
-    marginLeft: 100
-}, 1500, 'ease-out');
 ```
 
 ## 组合应用案例
@@ -287,215 +247,222 @@ customAnimation(box, {
 ### 1. 交互式卡片动画
 
 ```html
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交互式卡片动画</title>
-    <style>
-        .card-container {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            justify-content: center;
-        }
-
-        .card {
-            width: 300px;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s;
-            opacity: 0;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:hover::before {
-            animation: shimmer 0.6s ease-in-out;
-        }
-
-        .card.clicked {
-            animation: pulse 0.6s ease-in-out;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .card-content {
-            padding: 20px;
-            color: white;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="card-container">
-        <div class="card" onclick="handleCardClick(this)">
-            <div class="card-content">
-                <h3>动画卡片 1</h3>
-                <p>悬停查看效果</p>
-            </div>
+<div class="card-container">
+    <div class="card" data-tilt>
+        <div class="card-content">
+            <h3>动画卡片</h3>
+            <p>鼠标悬停查看效果</p>
         </div>
-        <div class="card" onclick="handleCardClick(this)">
-            <div class="card-content">
-                <h3>动画卡片 2</h3>
-                <p>点击触发动画</p>
-            </div>
-        </div>
+        <div class="card-glow"></div>
     </div>
+</div>
+```
 
-    <script>
-        function handleCardClick(card) {
-            card.classList.add('clicked');
-            
-            setTimeout(() => {
-                card.classList.remove('clicked');
-            }, 600);
-        }
-    </script>
-</body>
-</html>
+```css
+.card {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 15px;
+    box-shadow: 
+        20px 20px 60px #d9d9d9,
+        -20px -20px 60px #ffffff;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.5) 50%, 
+        transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.card:hover::before {
+    transform: translateX(100%);
+}
+
+.card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+        rgba(74, 144, 226, 0.3) 0%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-glow {
+    opacity: 1;
+}
+```
+
+```javascript
+// 3D倾斜效果
+class TiltEffect {
+    constructor() {
+        this.cards = document.querySelectorAll('[data-tilt]');
+        this.initTilt();
+    }
+    
+    initTilt() {
+        this.cards.forEach(card => {
+            card.addEventListener('mousemove', this.handleMouseMove.bind(this));
+            card.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+        });
+    }
+    
+    handleMouseMove(e) {
+        const card = e.currentTarget;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / centerY * -10;
+        const rotateY = (x - centerX) / centerX * 10;
+        
+        card.style.transform = `
+            perspective(1000px) 
+            rotateX(${rotateX}deg) 
+            rotateY(${rotateY}deg) 
+            scale3d(1.05, 1.05, 1.05)
+        `;
+    }
+    
+    handleMouseLeave(e) {
+        const card = e.currentTarget;
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
+}
+
+// 初始化效果
+document.addEventListener('DOMContentLoaded', () => {
+    new TiltEffect();
+});
 ```
 
 ## 性能优化建议
 
 ### 1. 硬件加速
-```css
-/* 启用硬件加速 */
-.gpu-accelerated {
-    transform: translateZ(0);
-    /* 或使用 */
-    will-change: transform, opacity;
-}
-```
 
-### 2. 避免重排和重绘
 ```css
-/* 好的做法 - 只影响合成层 */
-.optimized-animation {
+/* 触发硬件加速的属性 */
+.gpu-accelerated {
+    transform: translateZ(0); /* 强制开启硬件加速 */
+    will-change: transform, opacity; /* 提示浏览器即将变化的属性 */
+}
+
+/* 优先使用 transform 和 opacity */
+.efficient-animation {
+    /* 推荐 - 不会触发重排和重绘 */
     transform: translateX(100px);
     opacity: 0.5;
-}
-
-/* 避免的做法 - 会触发重排 */
-.bad-animation {
-    left: 100px;
-    width: 200px;
+    
+    /* 避免 - 会触发重排 */
+    /* left: 100px; */
+    /* width: 200px; */
+    
+    /* 避免 - 会触发重绘 */
+    /* background-color: red; */
+    /* color: blue; */
 }
 ```
 
-### 3. JavaScript 性能优化
+### 2. 动画批处理
+
 ```javascript
-// 使用 requestAnimationFrame
-function optimizedAnimation() {
-    let start = null;
+// 批量更新DOM，避免频繁重排
+class AnimationBatch {
+    constructor() {
+        this.pendingUpdates = [];
+        this.isScheduled = false;
+    }
     
-    function step(timestamp) {
-        if (!start) start = timestamp;
-        const progress = timestamp - start;
-        
-        // 动画逻辑
-        if (progress < 1000) {
-            requestAnimationFrame(step);
+    addUpdate(element, properties) {
+        this.pendingUpdates.push({ element, properties });
+        this.scheduleUpdate();
+    }
+    
+    scheduleUpdate() {
+        if (!this.isScheduled) {
+            this.isScheduled = true;
+            requestAnimationFrame(() => {
+                this.executeBatch();
+                this.isScheduled = false;
+            });
         }
     }
     
-    requestAnimationFrame(step);
-}
-
-// 节流滚动事件
-let ticking = false;
-
-function handleScroll() {
-    if (!ticking) {
-        requestAnimationFrame(() => {
-            // 滚动处理逻辑
-            ticking = false;
+    executeBatch() {
+        this.pendingUpdates.forEach(({ element, properties }) => {
+            Object.assign(element.style, properties);
         });
-        ticking = true;
+        this.pendingUpdates.length = 0;
     }
 }
 
-window.addEventListener('scroll', handleScroll);
+const animationBatch = new AnimationBatch();
+
+// 使用示例
+function animateElements(elements) {
+    elements.forEach((element, index) => {
+        animationBatch.addUpdate(element, {
+            transform: `translateY(${index * 20}px)`,
+            opacity: '1'
+        });
+    });
+}
 ```
 
 ## 版本对比
 
 ### CSS 动画 vs JavaScript 动画
 
-| 特性 | CSS 动画 | JavaScript 动画 |
-|------|----------|------------------|
-| **性能** | 硬件加速，高性能 | 依赖主线程，可能阻塞 |
-| **控制性** | 有限的控制选项 | 完全可控 |
-| **复杂度** | 简单动画效果好 | 适合复杂交互 |
-| **兼容性** | 现代浏览器支持好 | 兼容性更广 |
-| **调试** | 开发工具支持有限 | 易于调试 |
+| 特性 | CSS动画 | JavaScript动画 |
+|------|---------|----------------|
+| **性能** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **灵活性** | ⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **控制精度** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **学习成本** | ⭐⭐ | ⭐⭐⭐⭐ |
+| **兼容性** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **代码量** | ⭐⭐⭐⭐ | ⭐⭐ |
 
-### 适用场景对比
+### 动画库对比
 
-**CSS 动画适用于：**
-- 简单的过渡效果
-- 悬停状态变化
-- 页面加载动画
-- 装饰性动画
-
-**JavaScript 动画适用于：**
-- 复杂的用户交互
-- 数据驱动的动画
-- 需要精确控制的效果
-- 与其他逻辑紧密结合
+| 库名 | 特点 | 体积 | 适用场景 |
+|------|------|------|----------|
+| **Animate.css** | 预定义CSS动画 | ~10KB | 快速实现常见动画 |
+| **GSAP** | 专业动画引擎 | ~30KB | 复杂动画项目 |
+| **Framer Motion** | React动画库 | ~25KB | React应用 |
+| **Lottie** | AE动画播放 | ~20KB | 复杂矢量动画 |
 
 ## 注意事项
 
 ### 1. 用户体验考虑
+
+- **动画时长**：一般控制在200-500ms之间
+- **缓动函数**：使用自然的缓动，避免线性动画
+- **减少干扰**：不要让动画影响用户的主要任务
+- **可访问性**：考虑用户的减少动画偏好设置
+
 ```css
-/* 尊重用户的动画偏好 */
+/* 尊重用户的减少动画偏好 */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -505,68 +472,45 @@ window.addEventListener('scroll', handleScroll);
 }
 ```
 
-### 2. 浏览器兼容性
-```css
-/* 添加浏览器前缀 */
-.animated-element {
-    -webkit-animation: slideIn 1s ease-out;
-    -moz-animation: slideIn 1s ease-out;
-    -o-animation: slideIn 1s ease-out;
-    animation: slideIn 1s ease-out;
-}
-```
+### 2. 性能监控
 
-### 3. 内存管理
 ```javascript
-// 清理动画事件监听器
-class AnimationManager {
+// 监控动画性能
+class AnimationPerformanceMonitor {
     constructor() {
-        this.animations = new Set();
+        this.fps = [];
+        this.monitoring = false;
     }
-
-    addAnimation(element, config) {
-        const animation = element.animate(config.keyframes, config.options);
-        this.animations.add(animation);
+    
+    startMonitoring() {
+        this.monitoring = true;
+        this.lastTime = performance.now();
+        this.measureFPS();
+    }
+    
+    stopMonitoring() {
+        this.monitoring = false;
+        const avgFPS = this.fps.reduce((a, b) => a + b, 0) / this.fps.length;
+        console.log(`平均帧率: ${avgFPS.toFixed(2)} FPS`);
+        this.fps = [];
+    }
+    
+    measureFPS() {
+        if (!this.monitoring) return;
         
-        animation.addEventListener('finish', () => {
-            this.animations.delete(animation);
-        });
-    }
-
-    cleanup() {
-        this.animations.forEach(animation => {
-            animation.cancel();
-        });
-        this.animations.clear();
+        const currentTime = performance.now();
+        const delta = currentTime - this.lastTime;
+        const fps = 1000 / delta;
+        
+        this.fps.push(fps);
+        this.lastTime = currentTime;
+        
+        requestAnimationFrame(() => this.measureFPS());
     }
 }
 ```
 
-### 4. 调试技巧
-```javascript
-// 动画调试工具
-const AnimationDebugger = {
-    logAnimationEvents: (element) => {
-        ['animationstart', 'animationend', 'animationiteration'].forEach(event => {
-            element.addEventListener(event, (e) => {
-                console.log(`Animation ${event}:`, e.animationName);
-            });
-        });
-    },
-    
-    pauseAllAnimations: () => {
-        document.body.style.animationPlayState = 'paused';
-    },
-    
-    resumeAllAnimations: () => {
-        document.body.style.animationPlayState = 'running';
-    }
-};
-```
-
----
-
-## 📚 相关文档
+## 🔗 相关链接
 
 - [← 上一章：表单交互设计](README-form.md)
 - [返回主文档](README.md)
