@@ -1,7 +1,7 @@
 # 表单交互设计
 *Form Interaction Design*
 
-[← 上一章：基础语法](README-basic.md) | [返回主文档](readme.md) | [下一章：动态效果实现 →](README-animation.md)
+[← 上一章：基础语法](README-basic.md) | [返回主文档](README.md) | [下一章：动态效果实现 →](README-animation.md)
 
 ## 📋 本章概览
 
@@ -25,6 +25,7 @@
 - [用户体验优化](#用户体验优化)
 - [版本对比与适用场景](#版本对比与适用场景)
 - [常见问题解决](#常见问题解决)
+- [注意事项与最佳实践](#注意事项与最佳实践)
 
 ## HTML 表单结构
 
@@ -238,7 +239,7 @@ HTML提供了丰富的表单控件，满足各种数据收集需求：
 
 ## 🎨 CSS 表单美化
 
-### 现代表单样式
+### 表单样式设计原则
 
 ```css
 /* 表单整体样式 */
@@ -401,7 +402,7 @@ button[type="reset"]:hover {
 
 ## ⚡ JavaScript 表单验证
 
-### 实时验证功能
+### 实时验证实现
 
 ```javascript
 // 表单验证类
@@ -945,7 +946,37 @@ class DynamicForm {
 | Formik (React) | React生态 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | VeeValidate (Vue) | Vue生态 | ⭐⭐⭐ | ⭐⭐⭐⭐ |
 
-## ⚠️ 注意事项与最佳实践
+## 常见问题解决
+
+### 跨浏览器兼容性问题
+
+1. **使用前缀**
+   ```css
+   /* 错误：未加前缀 */
+   border-radius: 10px;
+   
+   /* 正确：添加浏览器前缀 */
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+   ```
+
+2. **CSS重置**
+   ```css
+   /* 错误：未重置默认样式 */
+   h1 {
+       margin: 20px;
+   }
+   
+   /* 正确：使用CSS重置 */
+   * {
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+   }
+   ```
+
+## 注意事项与最佳实践
 
 ### 常见错误避免
 

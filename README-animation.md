@@ -1,7 +1,7 @@
 # 动态效果实现指南
 *CSS Animation & JavaScript Control*
 
-[← 上一章：表单交互设计](README-form.md) | [返回主文档](readme.md) | [下一章：响应式布局 →](README-responsive.md)
+[← 上一章：表单交互设计](README-form.md) | [返回主文档](README.md) | [下一章：响应式布局 →](README-responsive.md)
 
 ## 📋 本章概览
 
@@ -401,136 +401,6 @@ customAnimation(box, {
     </script>
 </body>
 </html>
-```
-
-### 2. 加载动画组件
-
-```javascript
-// 加载动画管理器
-class LoadingAnimationManager {
-    constructor() {
-        this.createLoadingElements();
-    }
-
-    createLoadingElements() {
-        // 创建加载遮罩
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'loading-overlay';
-        this.overlay.innerHTML = `
-            <div class="loading-spinner">
-                <div class="spinner-ring"></div>
-                <div class="spinner-ring"></div>
-                <div class="spinner-ring"></div>
-            </div>
-            <p class="loading-text">加载中...</p>
-        `;
-
-        // 添加样式
-        const style = document.createElement('style');
-        style.textContent = `
-            .loading-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.9);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                z-index: 9999;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-
-            .loading-overlay.active {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .loading-spinner {
-                position: relative;
-                width: 60px;
-                height: 60px;
-            }
-
-            .spinner-ring {
-                position: absolute;
-                border: 3px solid transparent;
-                border-top: 3px solid #3498db;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-            }
-
-            .spinner-ring:nth-child(1) {
-                width: 60px;
-                height: 60px;
-                animation-delay: 0s;
-            }
-
-            .spinner-ring:nth-child(2) {
-                width: 45px;
-                height: 45px;
-                top: 7.5px;
-                left: 7.5px;
-                border-top-color: #e74c3c;
-                animation-delay: -0.3s;
-            }
-
-            .spinner-ring:nth-child(3) {
-                width: 30px;
-                height: 30px;
-                top: 15px;
-                left: 15px;
-                border-top-color: #f39c12;
-                animation-delay: -0.6s;
-            }
-
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-
-            .loading-text {
-                margin-top: 20px;
-                color: #333;
-                font-size: 16px;
-                animation: pulse-text 1.5s ease-in-out infinite;
-            }
-
-            @keyframes pulse-text {
-                0%, 100% { opacity: 0.7; }
-                50% { opacity: 1; }
-            }
-        `;
-
-        document.head.appendChild(style);
-        document.body.appendChild(this.overlay);
-    }
-
-    show() {
-        this.overlay.classList.add('active');
-    }
-
-    hide() {
-        this.overlay.classList.remove('active');
-    }
-}
-
-// 使用示例
-const loadingManager = new LoadingAnimationManager();
-
-// 模拟异步操作
-function simulateAsyncOperation() {
-    loadingManager.show();
-    
-    setTimeout(() => {
-        loadingManager.hide();
-        alert('操作完成！');
-    }, 3000);
-}
 ```
 
 ## 性能优化建议
